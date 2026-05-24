@@ -1,15 +1,20 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: API specification for 3D Phone Store
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: phones
+    description: Phone products
+  - name: categories
+    description: Phone categories
+  - name: cart
+    description: Shopping cart
 paths:
   /healthz:
     get:
@@ -24,6 +29,163 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  /phones:
+    get:
+      operationId: listPhones
+      tags: [phones]
+      summary: List all phones
+      parameters:
+        - name: categoryId
+          in: query
+          schema:
+            type: ["integer", "null"]
+        - name: search
+          in: query
+          schema:
+            type: ["string", "null"]
+        - name: featured
+          in: query
+          schema:
+            type: ["boolean", "null"]
+      responses:
+        "200":
+          description: List of phones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Phone"
+    post:
+      operationId: createPhone
+      tags: [phones]
+      summary: Create a phone
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PhoneInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Phone"
+
+  /phones/{id}:
+    get:
+      operationId: getPhone
+      tags: [phones]
+      summary: Get a phone by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Phone
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Phone"
+        "404":
+          description: Not found
+
+  /phones/featured:
+    get:
+      operationId: getFeaturedPhones
+      tags: [phones]
+      summary: Get featured phones for hero display
+      responses:
+        "200":
+          description: Featured phones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Phone"
+
+  /phones/stats:
+    get:
+      operationId: getPhoneStats
+      tags: [phones]
+      summary: Get store stats (total products, brands, price range)
+      responses:
+        "200":
+          description: Store stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StoreStats"
+
+  /categories:
+    get:
+      operationId: listCategories
+      tags: [categories]
+      summary: List all categories
+      responses:
+        "200":
+          description: List of categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Category"
+
+  /cart:
+    get:
+      operationId: getCart
+      tags: [cart]
+      summary: Get cart items
+      responses:
+        "200":
+          description: Cart items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CartItem"
+    post:
+      operationId: addToCart
+      tags: [cart]
+      summary: Add item to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CartItemInput"
+      responses:
+        "201":
+          description: Added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CartItem"
+
+  /cart/{id}:
+    delete:
+      operationId: removeFromCart
+      tags: [cart]
+      summary: Remove item from cart
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Removed
+
 components:
   schemas:
     HealthStatus:
@@ -34,3 +196,124 @@ components:
       required:
         - status
 
+    Phone:
+      type: object
+      required: [id, name, brand, price, imageUrl, categoryId]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        brand:
+          type: string
+        price:
+          type: number
+        originalPrice:
+          type: ["number", "null"]
+        imageUrl:
+          type: string
+        imageUrl2:
+          type: ["string", "null"]
+        imageUrl3:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        specs:
+          type: ["string", "null"]
+        categoryId:
+          type: integer
+        featured:
+          type: boolean
+        inStock:
+          type: boolean
+        rating:
+          type: ["number", "null"]
+        reviewCount:
+          type: ["integer", "null"]
+        color:
+          type: ["string", "null"]
+        storage:
+          type: ["string", "null"]
+
+    PhoneInput:
+      type: object
+      required: [name, brand, price, imageUrl, categoryId]
+      properties:
+        name:
+          type: string
+        brand:
+          type: string
+        price:
+          type: number
+        originalPrice:
+          type: ["number", "null"]
+        imageUrl:
+          type: string
+        imageUrl2:
+          type: ["string", "null"]
+        imageUrl3:
+          type: ["string", "null"]
+        description:
+          type: ["string", "null"]
+        specs:
+          type: ["string", "null"]
+        categoryId:
+          type: integer
+        featured:
+          type: boolean
+        inStock:
+          type: boolean
+        color:
+          type: ["string", "null"]
+        storage:
+          type: ["string", "null"]
+
+    Category:
+      type: object
+      required: [id, name, slug]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: ["string", "null"]
+
+    CartItem:
+      type: object
+      required: [id, phoneId, quantity, phone]
+      properties:
+        id:
+          type: integer
+        phoneId:
+          type: integer
+        quantity:
+          type: integer
+        phone:
+          $ref: "#/components/schemas/Phone"
+
+    CartItemInput:
+      type: object
+      required: [phoneId, quantity]
+      properties:
+        phoneId:
+          type: integer
+        quantity:
+          type: integer
+
+    StoreStats:
+      type: object
+      required: [totalProducts, totalBrands, minPrice, maxPrice, inStockCount]
+      properties:
+        totalProducts:
+          type: integer
+        totalBrands:
+          type: integer
+        minPrice:
+          type: number
+        maxPrice:
+          type: number
+        inStockCount:
+          type: integer
