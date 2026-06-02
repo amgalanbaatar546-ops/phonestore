@@ -74,13 +74,13 @@ export default function Admin() {
 
   const fetchOrders = () =>
     fetch("/api/admin/orders", { credentials: "include" })
-      .then((r) => r.json())
-      .then(setOrders);
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => setOrders(Array.isArray(data) ? data : []));
 
   const fetchPhones = () =>
     fetch("/api/phones", { credentials: "include" })
-      .then((r) => r.json())
-      .then(setPhones);
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => setPhones(Array.isArray(data) ? data : []));
 
   useEffect(() => {
     if (!user || user.role !== "admin") return;

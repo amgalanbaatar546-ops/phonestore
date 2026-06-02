@@ -30,7 +30,13 @@ router.post("/auth/login", async (req, res): Promise<void> => {
   req.session.role = user.role;
   req.session.username = user.username;
 
-  res.json({ id: user.id, username: user.username, role: user.role });
+  req.session.save((err) => {
+    if (err) {
+      res.status(500).json({ error: "Session хадгалах үед алдаа гарлаа" });
+      return;
+    }
+    res.json({ id: user.id, username: user.username, role: user.role });
+  });
 });
 
 router.post("/auth/logout", (req, res): void => {
