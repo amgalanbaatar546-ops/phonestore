@@ -42,7 +42,8 @@ export const ListPhonesResponseItem = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 })
 export const ListPhonesResponse = zod.array(ListPhonesResponseItem)
 
@@ -64,7 +65,8 @@ export const CreatePhoneBody = zod.object({
   "featured": zod.boolean().optional(),
   "inStock": zod.boolean().optional(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 })
 
 
@@ -92,7 +94,8 @@ export const GetPhoneResponse = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 })
 
 
@@ -124,7 +127,8 @@ export const GetFeaturedPhonesResponseItem = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 })
 export const GetFeaturedPhonesResponse = zod.array(GetFeaturedPhonesResponseItem)
 
@@ -177,7 +181,8 @@ export const GetCartResponseItem = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 })
 })
 export const GetCartResponse = zod.array(GetCartResponseItem)
@@ -257,7 +262,8 @@ export const ListOrdersResponseItem = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 }).optional()
 }))
 })
@@ -296,7 +302,8 @@ export const ListAllOrdersResponseItem = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 }).optional()
 }))
 })
@@ -343,7 +350,8 @@ export const UpdateOrderStatusResponse = zod.object({
   "rating": zod.number().nullish(),
   "reviewCount": zod.number().nullish(),
   "color": zod.string().nullish(),
-  "storage": zod.string().nullish()
+  "storage": zod.string().nullish(),
+  "modelType": zod.string().nullish()
 }).optional()
 }))
 })

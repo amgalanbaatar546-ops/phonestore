@@ -36,6 +36,8 @@ export interface Phone {
   color?: string | null;
   /** @nullable */
   storage?: string | null;
+  /** @nullable */
+  modelType?: string | null;
 }
 
 export interface PhoneInput {
@@ -60,6 +62,8 @@ export interface PhoneInput {
   color?: string | null;
   /** @nullable */
   storage?: string | null;
+  /** @nullable */
+  modelType?: string | null;
 }
 
 export interface Category {

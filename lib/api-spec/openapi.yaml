@@ -365,6 +365,8 @@ components:
           type: ["string", "null"]
         storage:
           type: ["string", "null"]
+        modelType:
+          type: ["string", "null"]
 
     PhoneInput:
       type: object
@@ -397,6 +399,8 @@ components:
         color:
           type: ["string", "null"]
         storage:
+          type: ["string", "null"]
+        modelType:
           type: ["string", "null"]
 
     Category:

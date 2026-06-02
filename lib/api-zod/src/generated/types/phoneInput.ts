@@ -28,4 +28,6 @@ export interface PhoneInput {
   color?: string | null;
   /** @nullable */
   storage?: string | null;
+  /** @nullable */
+  modelType?: string | null;
 }

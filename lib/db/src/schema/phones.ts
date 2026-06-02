@@ -20,6 +20,7 @@ export const phonesTable = pgTable("phones", {
   reviewCount: integer("review_count"),
   color: text("color"),
   storage: text("storage"),
+  modelType: text("model_type").default("generic"),
 });
 
 export const insertPhoneSchema = createInsertSchema(phonesTable).omit({ id: true });

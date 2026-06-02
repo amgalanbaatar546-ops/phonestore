@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/context/AuthContext";
 import { useListCategories } from "@workspace/api-client-react";
+import { MODEL_OPTIONS } from "@/components/PhoneModels";
 
 type OrderItem = {
   id: number;
@@ -49,7 +50,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 const emptyPhone = {
   name: "", brand: "", price: "", originalPrice: "", imageUrl: "",
   description: "", specs: "", categoryId: "", featured: false, inStock: true,
-  color: "", storage: "",
+  color: "", storage: "", modelType: "generic",
 };
 
 export default function Admin() {
@@ -122,6 +123,7 @@ export default function Admin() {
         inStock: form.inStock,
         color: form.color || null,
         storage: form.storage || null,
+        modelType: form.modelType || "generic",
       };
       const res = await fetch("/api/phones", {
         method: "POST",
@@ -345,6 +347,18 @@ export default function Admin() {
                   <div className="space-y-1">
                     <label className="text-xs text-muted-foreground">Хадгалах хэмжээ</label>
                     <Input value={form.storage} onChange={(e) => setForm({ ...form, storage: e.target.value })} placeholder="256GB" className="bg-background border-white/10" />
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-xs text-muted-foreground">3D Загвар</label>
+                    <select
+                      value={form.modelType}
+                      onChange={(e) => setForm({ ...form, modelType: e.target.value })}
+                      className="w-full h-10 rounded-lg bg-background border border-white/10 px-3 text-sm text-foreground"
+                    >
+                      {MODEL_OPTIONS.map((m) => (
+                        <option key={m.value} value={m.value}>{m.label}</option>
+                      ))}
+                    </select>
                   </div>
                   <div className="space-y-1 sm:col-span-2">
                     <label className="text-xs text-muted-foreground">Тайлбар</label>

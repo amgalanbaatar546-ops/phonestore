@@ -5,7 +5,7 @@ import { Environment, OrbitControls } from "@react-three/drei";
 import { WebGLErrorBoundary } from "@/components/WebGLErrorBoundary";
 import { isWebGLAvailable } from "@/hooks/use-webgl";
 import { useGetPhone, useAddToCart, getGetCartQueryKey } from "@workspace/api-client-react";
-import { Phone3DModel } from "@/components/Phone3DModel";
+import { PhoneModelByType } from "@/components/PhoneModels";
 import { Button } from "@/components/ui/button";
 import { Loader2, ShoppingCart, ShieldCheck, Truck, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
@@ -22,7 +22,7 @@ export default function PhoneDetail() {
   const queryClient = useQueryClient();
 
   const { data: phone, isLoading } = useGetPhone(phoneId, {
-    query: { enabled: !!phoneId }
+    query: { enabled: !!phoneId } as any
   });
 
   const addToCartMutation = useAddToCart();
@@ -98,7 +98,7 @@ export default function PhoneDetail() {
                   <directionalLight position={[10, 10, 5]} intensity={1} color="#00f0ff" />
                   <directionalLight position={[-10, -10, -5]} intensity={0.5} color="#b000ff" />
                   <Suspense fallback={null}>
-                    <Phone3DModel interactive={true} scale={1.2} />
+                    <PhoneModelByType modelType={phone.modelType} interactive={true} scale={1.2} />
                     <Environment preset="city" />
                     <OrbitControls enableZoom={false} autoRotate={false} />
                   </Suspense>
